@@ -370,7 +370,7 @@ ggplot(num_sanc)+
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-![](project2_files/figure-gfm/time%20series%20sanctions%20placed-1.png)<!-- -->
+![](Project_files/figure-gfm/time%20series%20sanctions%20placed-1.png)<!-- -->
 
 Creating the time series plots proved to be an initial challenge, as our
 dataset has a start and end date for each observation, rather than
@@ -433,7 +433,7 @@ ggplot(num_sanc_placed)+
   labs(title="Number of Active Sanctions Placed Upon Countries Over Time",color="Countries",x="Year",y="Number of Sanctions")
 ```
 
-![](project2_files/figure-gfm/time%20series%20sanctions%20against-1.png)<!-- -->
+![](Project_files/figure-gfm/time%20series%20sanctions%20against-1.png)<!-- -->
 
 This graph is similar to the first time-series graph but shows the
 number of sanctions placed upon a given nation. The “Total” sanction
@@ -461,7 +461,7 @@ ggplot(us_me_sanc)+
   theme_minimal()
 ```
 
-![](project2_files/figure-gfm/segment%20us%20sanctions%20on%20middle%20east-1.png)<!-- -->
+![](Project_files/figure-gfm/segment%20us%20sanctions%20on%20middle%20east-1.png)<!-- -->
 
 Because our raw dataset included start and end times, we thought it
 appropriate to craft a few timelines of specific observations. The
@@ -492,7 +492,7 @@ ggplot(us_la_sanc)+
   theme_minimal()
 ```
 
-![](project2_files/figure-gfm/segment%20us%20sanctions%20on%20latin%20america-1.png)<!-- -->
+![](Project_files/figure-gfm/segment%20us%20sanctions%20on%20latin%20america-1.png)<!-- -->
 
 This graph is nearly identical to the prior timeline but involves Latin
 American countries instead. Note here the immense length of time that
@@ -561,7 +561,7 @@ sanctioning_plot +
   scale_fill_distiller(palette = "Blues",direction=1,breaks=c(0, 1, 2), labels = c(0, 10, 100))
 ```
 
-![](project2_files/figure-gfm/choropleth%20sanctions%20placed-1.png)<!-- -->
+![](Project_files/figure-gfm/choropleth%20sanctions%20placed-1.png)<!-- -->
 
 Considering the log scale, this graph demonstrates the extremely high
 number of sanctions that the United States, as well as its Western
@@ -588,7 +588,7 @@ sanctioned_plot +
   scale_fill_distiller(palette = "YlOrRd",direction=1)
 ```
 
-![](project2_files/figure-gfm/choropleth%20sanctions%20against-1.png)<!-- -->
+![](Project_files/figure-gfm/choropleth%20sanctions%20against-1.png)<!-- -->
 
 This graph shows the disproportionate number of sanctions that the
 Global South and non-Western countries have received.
@@ -619,7 +619,7 @@ bifinmap <- ggdraw() +
 bifinmap
 ```
 
-![](project2_files/figure-gfm/choropleth%20bivariate-1.png)<!-- -->
+![](Project_files/figure-gfm/choropleth%20bivariate-1.png)<!-- -->
 
 This graph differentiates between countries and organizations that are
 better classified as “sanction placers” or “sanction receivers.” It is
@@ -801,7 +801,7 @@ ggplot(luv_data2,aes(y=freq,axis1=sanctioning_region,axis2=sanctioned_region))+
     ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
     ## params$discern): Some strata appear at multiple axes.
 
-![](project2_files/figure-gfm/alluvial-1.png)<!-- -->
+![](Project_files/figure-gfm/alluvial-1.png)<!-- -->
 
 The alluvial plot first shows which regions place a lot of sanctions
 compared to which regions receive many sanctions. North America and
@@ -879,7 +879,7 @@ ggplot(obj_comb,aes(x=reorder(obj_name,-count), y=count,fill=reorder(region,-cou
   scale_fill_manual(values=c("lightgrey","darkgoldenrod2","coral3","dodgerblue4"))
 ```
 
-![](project2_files/figure-gfm/stacked%20bar%20objectives-1.png)<!-- -->
+![](Project_files/figure-gfm/stacked%20bar%20objectives-1.png)<!-- -->
 
 This graph shows the objectives of sanctions by a few specific receiving
 regions. Sub-Saharan Africa receives a disproportionate number of
@@ -941,7 +941,7 @@ ggplot(num_sanc_type, aes(x=key, y=values, group=country))+
   theme(strip.text.x=element_text(size=10))
 ```
 
-![](project2_files/figure-gfm/radar%20types-1.png)<!-- -->
+![](Project_files/figure-gfm/radar%20types-1.png)<!-- -->
 
 To utilize our type of sanction dummy variables of Arms, Financial,
 Military, Trade, Travel, and Other. Radar plots avoided a central
