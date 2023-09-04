@@ -1,7 +1,4 @@
 ---
-title: "Global Use of Sanctions"
-author: "Shray Dewan"
-date: "2023-09-03"
 output: github_document
 ---
 

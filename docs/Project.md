@@ -1,7 +1,3 @@
-Global Use of Sanctions
-================
-Shray Dewan
-2023-09-03
 
 # Global Use of Sanctions
 
