@@ -1,57 +1,198 @@
----
-title: "Global Use of Sanctions"
-author: "Shray Dewan"
-date: "2023-09-03"
-output: github_document
----
+Global Use of Sanctions
+================
+Shray Dewan
+2023-09-03
 
 # Global Use of Sanctions
+
 ### Shray Dewan and Tristan Serr
 
 # Our Research Questions:
+
 How has the use of sanctions changed over time?
 
-What is the distribution of countries that have sanctioned others and countries that have been sanctioned?
+What is the distribution of countries that have sanctioned others and
+countries that have been sanctioned?
 
 What are the most frequent objectives and types of sanctions?
 
-
-Because of the recent emphasis placed upon sanctions as a deterrent and as a punishment for Russian aggression, we decided to take a look at the historical use case of sanctions.  In examining the above questions, our goal was to discover which nations are using economic sanctions against which other nations, of which kind of sanction, for which reasons, and for how long.  Answering these questions will hopefully allow us and other viewers to make their own conclusions about whether or not sanctions are a fair, effective, or productive use of economic will.
+Because of the recent emphasis placed upon sanctions as a deterrent and
+as a punishment for Russian aggression, we decided to take a look at the
+historical use case of sanctions. In examining the above questions, our
+goal was to discover which nations are using economic sanctions against
+which other nations, of which kind of sanction, for which reasons, and
+for how long. Answering these questions will hopefully allow us and
+other viewers to make their own conclusions about whether or not
+sanctions are a fair, effective, or productive use of economic will.
 
 # Our Data:
 
-Upon request via email, we received our dataset, titled sanctions.csv, from a team of political scientists at the Global Sanctions Database, a project of Drexel University.  We came across this group from a New York Times article analyzing the historical successes and failures of sanctions, found [here](https://www.nytimes.com/interactive/2022/03/11/world/economic-sanctions-history.html).  The GSDB’s website can be found [here](https://www.globalsanctionsdatabase.com/).
+Upon request via email, we received our dataset, titled sanctions.csv,
+from a team of political scientists at the Global Sanctions Database, a
+project of Drexel University. We came across this group from a New York
+Times article analyzing the historical successes and failures of
+sanctions, found
+[here](https://www.nytimes.com/interactive/2022/03/11/world/economic-sanctions-history.html).
+The GSDB’s website can be found
+[here](https://www.globalsanctionsdatabase.com/).
 
-Our CSV contains 1,102 observations from 14 variables, 13 of which we used. We used variables that included the sanction target, the sanction implementer, the start and end dates, dummy variables that described the type of sanction, and a categorical variable involving objectives.  The only variable we chose to omit from our use case was the “success” variable, which gave from the opinion of the Drexel researchers, the supposed outcome of said sanction.  This variable is very subjective, both from the views of different researchers but also that of different countries; thus, we saw it unfit to graphically portray.
+Our CSV contains 1,102 observations from 14 variables, 13 of which we
+used. We used variables that included the sanction target, the sanction
+implementer, the start and end dates, dummy variables that described the
+type of sanction, and a categorical variable involving objectives. The
+only variable we chose to omit from our use case was the “success”
+variable, which gave from the opinion of the Drexel researchers, the
+supposed outcome of said sanction. This variable is very subjective,
+both from the views of different researchers but also that of different
+countries; thus, we saw it unfit to graphically portray.
 
-# Our Plan, Workflow, and Designs: 
+# Our Plan, Workflow, and Designs:
 
-For the first research question involving how the tool of sanctions changed over time, we chose to make four graphs: two time series graphs, one each for sanctioning states and sanctioned states overtime; and two timelines, one for Middle Eastern countries who received sanctions from the U.S., and one for Latin American countries that received sanctions from the U.S.
+For the first research question involving how the tool of sanctions
+changed over time, we chose to make four graphs: two time series graphs,
+one each for sanctioning states and sanctioned states overtime; and two
+timelines, one for Middle Eastern countries who received sanctions from
+the U.S., and one for Latin American countries that received sanctions
+from the U.S.
 
-For the second research question involving the distribution of sanctions across the globe, we chose to implement three choropleths: two univariate and one bivariate.  Each univariate choropleth visualizes the number of sanctions each nation has distributed and received, respectively.  The bivariate choropleth, represents the crossover between these two metrics, as to visualize which countries distributed or received more sanctions to or from the rest of the world.
+For the second research question involving the distribution of sanctions
+across the globe, we chose to implement three choropleths: two
+univariate and one bivariate. Each univariate choropleth visualizes the
+number of sanctions each nation has distributed and received,
+respectively. The bivariate choropleth, represents the crossover between
+these two metrics, as to visualize which countries distributed or
+received more sanctions to or from the rest of the world.
 
-```{r libraries and readcsv}
+``` r
 library(tidyverse)
+```
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+    ## ✔ purrr     1.0.2     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+``` r
 library(ggplot2)
 library(cowplot)
+```
+
+    ## 
+    ## Attaching package: 'cowplot'
+    ## 
+    ## The following object is masked from 'package:lubridate':
+    ## 
+    ##     stamp
+
+``` r
 library(ggpubr)
+```
+
+    ## 
+    ## Attaching package: 'ggpubr'
+    ## 
+    ## The following object is masked from 'package:cowplot':
+    ## 
+    ##     get_legend
+
+``` r
 library(maps)
+```
+
+    ## 
+    ## Attaching package: 'maps'
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     map
+
+``` r
 library(gapminder)
 library(biscale)
 library(sf)
+```
+
+    ## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+
+``` r
 library(ggalluvial)
 library(wesanderson)
 library(magrittr)
+```
+
+    ## 
+    ## Attaching package: 'magrittr'
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     set_names
+    ## 
+    ## The following object is masked from 'package:tidyr':
+    ## 
+    ##     extract
+
+``` r
 library(dplyr)
 library("data.table")
-library(vcd)
+```
 
+    ## 
+    ## Attaching package: 'data.table'
+    ## 
+    ## The following objects are masked from 'package:lubridate':
+    ## 
+    ##     hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    ##     yday, year
+    ## 
+    ## The following objects are masked from 'package:dplyr':
+    ## 
+    ##     between, first, last
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     transpose
+
+``` r
+library(vcd)
+```
+
+    ## Loading required package: grid
+
+``` r
 sanctions <- read_csv("sanctions.csv")
+```
+
+    ## Rows: 1101 Columns: 15
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr  (5): sanctioned_state, sanctioning_state, descr_trade, objective, success
+    ## dbl (10): case_id, begin, end, length, trade, arms, military, financial, tra...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 world_map <- map_data("world")
 regions <- read_csv("gapMinderGeo.csv")
 ```
 
-```{r tables with sanction counts}
+    ## Rows: 197 Columns: 12
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (9): geo, name, four_regions, eight_regions, six_regions, members_oecd_g...
+    ## dbl (2): Latitude, Longitude
+    ## lgl (1): World bank, 3 income groups 2017
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 sanctioning_count <- data.frame(
   state = sort(unique(sanctions$sanctioning_state)))
 sanctioning_count <- filter(sanctioning_count,str_detect(state,",",T))
@@ -90,14 +231,104 @@ allstates <- subset(allstates,region!="Barbuda")
 allstates_names <- levels(as.factor(allstates$region))
 map_names <- levels(as.factor(world_map$region))
 map_names[which( !(map_names %in% allstates_names) )]
+```
+
+    ##  [1] "American Samoa"                      "Andorra"                            
+    ##  [3] "Anguilla"                            "Antarctica"                         
+    ##  [5] "Aruba"                               "Ascension Island"                   
+    ##  [7] "Azores"                              "Bahamas"                            
+    ##  [9] "Bangladesh"                          "Barbados"                           
+    ## [11] "Bermuda"                             "Bhutan"                             
+    ## [13] "Bonaire"                             "Botswana"                           
+    ## [15] "Brunei"                              "Canary Islands"                     
+    ## [17] "Cape Verde"                          "Cayman Islands"                     
+    ## [19] "Chagos Archipelago"                  "Christmas Island"                   
+    ## [21] "Cocos Islands"                       "Cook Islands"                       
+    ## [23] "Curacao"                             "Falkland Islands"                   
+    ## [25] "Faroe Islands"                       "French Guiana"                      
+    ## [27] "French Polynesia"                    "French Southern and Antarctic Lands"
+    ## [29] "Gabon"                               "Greenland"                          
+    ## [31] "Grenadines"                          "Guadeloupe"                         
+    ## [33] "Guam"                                "Guernsey"                           
+    ## [35] "Guyana"                              "Heard Island"                       
+    ## [37] "Isle of Man"                         "Jersey"                             
+    ## [39] "Kosovo"                              "Madeira Islands"                    
+    ## [41] "Marshall Islands"                    "Martinique"                         
+    ## [43] "Mauritius"                           "Mayotte"                            
+    ## [45] "Micronesia"                          "Monaco"                             
+    ## [47] "Mongolia"                            "Montserrat"                         
+    ## [49] "Morocco"                             "Namibia"                            
+    ## [51] "Nevis"                               "New Caledonia"                      
+    ## [53] "Niue"                                "Norfolk Island"                     
+    ## [55] "Northern Mariana Islands"            "Oman"                               
+    ## [57] "Palau"                               "Papua New Guinea"                   
+    ## [59] "Pitcairn Islands"                    "Puerto Rico"                        
+    ## [61] "Reunion"                             "Saba"                               
+    ## [63] "Saint Barthelemy"                    "Saint Helena"                       
+    ## [65] "Saint Kitts"                         "Saint Lucia"                        
+    ## [67] "Saint Martin"                        "Saint Pierre and Miquelon"          
+    ## [69] "Saint Vincent"                       "Samoa"                              
+    ## [71] "San Marino"                          "Sao Tome and Principe"              
+    ## [73] "Seychelles"                          "Siachen Glacier"                    
+    ## [75] "Sint Eustatius"                      "Sint Maarten"                       
+    ## [77] "Solomon Islands"                     "South Georgia"                      
+    ## [79] "South Sandwich Islands"              "Swaziland"                          
+    ## [81] "Timor-Leste"                         "Tobago"                             
+    ## [83] "Tonga"                               "Trinidad"                           
+    ## [85] "Turks and Caicos Islands"            "Vanuatu"                            
+    ## [87] "Vatican"                             "Virgin Islands"                     
+    ## [89] "Wallis and Futuna"                   "Western Sahara"
+
+``` r
 allstates_names[which( !(allstates_names %in% map_names) )]
 ```
 
-To create the allstates dataset, which includes the counts of sanctions placed and sanctions received for each region (country or organization in the dataset, we first created and alphabetized the list of regions, along with deleting any duplicates. Then, we used a string count function to count the number of instances that the region appeared in the sanctions placed or sanctions received column of the sanctions.csv. Finally, we removed all regions that did not place or receive sanctions.
+    ##  [1] "African Union"                                 
+    ##  [2] "Balkans"                                       
+    ##  [3] "ChinCom"                                       
+    ##  [4] "CoCom"                                         
+    ##  [5] "Comecon"                                       
+    ##  [6] "Commonwealth"                                  
+    ##  [7] "CSCE"                                          
+    ##  [8] "ECOWAS"                                        
+    ##  [9] "EU"                                            
+    ## [10] "FRY"                                           
+    ## [11] "G8"                                            
+    ## [12] "Hong Kong"                                     
+    ## [13] "ICC Rome Statute Signatories"                  
+    ## [14] "Kimberly Process Participants"                 
+    ## [15] "League of Arab States"                         
+    ## [16] "MERCOSUR"                                      
+    ## [17] "NAFTA"                                         
+    ## [18] "NATO"                                          
+    ## [19] "OAPEC"                                         
+    ## [20] "OIC"                                           
+    ## [21] "Organisation of African Unity"                 
+    ## [22] "Organization of American States"               
+    ## [23] "Organization of Eastern Carribean States"      
+    ## [24] "Pacific Islands Forum"                         
+    ## [25] "Paris Agreement Signatories"                   
+    ## [26] "SADC"                                          
+    ## [27] "Terrorist Organizations (Al-Qaeda)"            
+    ## [28] "Terrorist Organizations (ISIL and ANF)"        
+    ## [29] "Terrorist Organizations (Taliban and Al-Qaeda)"
+    ## [30] "Terrorist Organizations (Taliban)"             
+    ## [31] "UN"                                            
+    ## [32] "UNASUR"                                        
+    ## [33] "Western countries"                             
+    ## [34] "Yugoslavia"
+
+To create the allstates dataset, which includes the counts of sanctions
+placed and sanctions received for each region (country or organization
+in the dataset, we first created and alphabetized the list of regions,
+along with deleting any duplicates. Then, we used a string count
+function to count the number of instances that the region appeared in
+the sanctions placed or sanctions received column of the sanctions.csv.
+Finally, we removed all regions that did not place or receive sanctions.
 
 # Section 1: Sanctions Over Time
 
-```{r time series sanctions placed}
+``` r
 US_sanctions <- filter(sanctions, str_detect(sanctions$sanctioning_state,"US"))
 eu_sanctions <- filter(sanctions, str_detect(sanctions$sanctioning_state,"EU"))
 un_sanctions <- filter(sanctions, str_detect(sanctions$sanctioning_state,"UN"))
@@ -133,11 +364,29 @@ ggplot(num_sanc)+
   labs(title="Number of Active Sanctions Placed by Countries Over Time",color="Regions",x="Year",y="Number of Sanctions") 
 ```
 
-Creating the time series plots proved to be an initial challenge, as our dataset has a start and end date for each observation, rather than making each observation a year variable.  To get past this hiccup, it was necessary to create a new data frame with a for(){} loop that would count the number of rows in our main dataset that included a given year within its start-end boundaries.  Countries were then singled out by filtering the initial dataset with a str_detect() function.  This was then graphically portrayed using geom_line() and geom_point() in ggplot.
+    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+    ## ℹ Please use `linewidth` instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
 
-Here we see the rampant increase in the use of economic sanctions in 1949, when our data commences, in the 1980s, and again at the turn of the 21st century.  Also note how far the top three nations/organizations, all of them Western, are from Russia.
+![](project2_files/figure-gfm/time%20series%20sanctions%20placed-1.png)<!-- -->
 
-```{r time series sanctions against}
+Creating the time series plots proved to be an initial challenge, as our
+dataset has a start and end date for each observation, rather than
+making each observation a year variable. To get past this hiccup, it was
+necessary to create a new data frame with a for(){} loop that would
+count the number of rows in our main dataset that included a given year
+within its start-end boundaries. Countries were then singled out by
+filtering the initial dataset with a str_detect() function. This was
+then graphically portrayed using geom_line() and geom_point() in ggplot.
+
+Here we see the rampant increase in the use of economic sanctions in
+1949, when our data commences, in the 1980s, and again at the turn of
+the 21st century. Also note how far the top three nations/organizations,
+all of them Western, are from Russia.
+
+``` r
 iran_sanced <- filter(sanctions, str_detect(sanctions$sanctioned_state,"Iran"))
 russia_sanced <- filter(sanctions, str_detect(sanctions$sanctioned_state,"Russia"))
 southafrica_sanced <- filter(sanctions, str_detect(sanctions$sanctioned_state,"South Africa"))
@@ -184,9 +433,17 @@ ggplot(num_sanc_placed)+
   labs(title="Number of Active Sanctions Placed Upon Countries Over Time",color="Countries",x="Year",y="Number of Sanctions")
 ```
 
-This graph is similar to the first time-series graph but shows the number of sanctions placed upon a given nation.  The “Total” sanction line would’ve been the same line as the first graph, so we chose to leave it out.  Note the periods of high sanction count for South Africa (green) during apartheid, China (brown) after the 1949 revolution, Iran (gold) until the 2017 nuclear deal, and Libya (purple) until the death of Muammar Gaddafi.
+![](project2_files/figure-gfm/time%20series%20sanctions%20against-1.png)<!-- -->
 
-```{r segment us sanctions on middle east}
+This graph is similar to the first time-series graph but shows the
+number of sanctions placed upon a given nation. The “Total” sanction
+line would’ve been the same line as the first graph, so we chose to
+leave it out. Note the periods of high sanction count for South Africa
+(green) during apartheid, China (brown) after the 1949 revolution, Iran
+(gold) until the 2017 nuclear deal, and Libya (purple) until the death
+of Muammar Gaddafi.
+
+``` r
 # US ME SANCTIONS
 us_me_sanc <- filter(US_sanctions,str_detect(US_sanctions$sanctioned_state,c("Algeria|Bahrain|Egypt|Iran|Iraq|Israel|Jordan|Kuwait|Lebanon|Libya|Morocco|Oman|Qatar|Saudi Arabia|Syria|Tunisia|United Arab Emirates
                                                                              |Yemen|League of Arab States|OAPEC|Terrorist Organizations (Taliban)|Terrorist Organizations (Taliban and Al-Qaeda)
@@ -204,11 +461,23 @@ ggplot(us_me_sanc)+
   theme_minimal()
 ```
 
-Because our raw dataset included start and end times, we thought it appropriate to craft a few timelines of specific observations.  The following two plots use a filtered data file called US_sanctions to narrow down the sanctioning state as the United States.  We filtered this data again using filter(str_detect()) to narrow down the sanctioned states to countries in the Middle East or Latin America.  These data frames were then visualized with geom_segment().
+![](project2_files/figure-gfm/segment%20us%20sanctions%20on%20middle%20east-1.png)<!-- -->
 
-This graph shows a timeline of U.S. sanctions in place against certain countries in the Middle East and North Africa.  Note how many sanctions were ongoing at the end of this dataset, in 2019.  This graph does a great job of visualizing the length of said sanctions and for how long a targeted nation had to endure economic rupture.
+Because our raw dataset included start and end times, we thought it
+appropriate to craft a few timelines of specific observations. The
+following two plots use a filtered data file called US_sanctions to
+narrow down the sanctioning state as the United States. We filtered this
+data again using filter(str_detect()) to narrow down the sanctioned
+states to countries in the Middle East or Latin America. These data
+frames were then visualized with geom_segment().
 
-```{r segment us sanctions on latin america}
+This graph shows a timeline of U.S. sanctions in place against certain
+countries in the Middle East and North Africa. Note how many sanctions
+were ongoing at the end of this dataset, in 2019. This graph does a
+great job of visualizing the length of said sanctions and for how long a
+targeted nation had to endure economic rupture.
+
+``` r
 us_la_sanc <- filter(US_sanctions, str_detect(US_sanctions$sanctioned_state, c("Argentina|Bolivia|Chile|Paraguay|Belize|Guatemala|Uruguay|Peru|Ecuador|Venezuela|Colombia|Panama|Honduras|Brazil|Mexico|Belize|Haiti|
 Dominican Republic|Suriname|Nicaragua|Costa Rica|El Savador|Cuba|Jamaica")))
 us_la_sanc <- mutate(us_la_sanc, case_id=81:1)
@@ -223,11 +492,17 @@ ggplot(us_la_sanc)+
   theme_minimal()
 ```
 
-This graph is nearly identical to the prior timeline but involves Latin American countries instead.  Note here the immense length of time that the U.S. imposed sanctions on Cuba (most of which are still ongoing).  Also notable is the start date of many sanctions, which is during the Reagan administration.
+![](project2_files/figure-gfm/segment%20us%20sanctions%20on%20latin%20america-1.png)<!-- -->
+
+This graph is nearly identical to the prior timeline but involves Latin
+American countries instead. Note here the immense length of time that
+the U.S. imposed sanctions on Cuba (most of which are still ongoing).
+Also notable is the start date of many sanctions, which is during the
+Reagan administration.
 
 # Section 2: Global Distributions of Sanctions
 
-```{r choropleth set-up}
+``` r
 sanctions_c <- full_join(world_map,allstates,by="region")
 sanctions_c[is.na(sanctions_c)]=0
 orgs <- data.frame(long=c(-10,-10,10,10,-10,
@@ -258,9 +533,15 @@ sanctions_c <- rbind(sanctions_c,orgs)
 sanctions_c <- filter(sanctions_c,long!=0 & lat!=0)
 ```
 
-The first step of the set-up process for the three choropleths was to join the map data with the dataset that includes the count of sanctions placed and received. The second step was to add four organizations that have placed a large number of sanctions (over ten) onto the choropleths. The third step was to set up for the log scale by reassigning zero values to 0.9, thereby preventing any extreme negative values on the choropleth.
+The first step of the set-up process for the three choropleths was to
+join the map data with the dataset that includes the count of sanctions
+placed and received. The second step was to add four organizations that
+have placed a large number of sanctions (over ten) onto the choropleths.
+The third step was to set up for the log scale by reassigning zero
+values to 0.9, thereby preventing any extreme negative values on the
+choropleth.
 
-```{r choropleth sanctions placed}
+``` r
 sanctions_c$sanctioning_count[sanctions_c$sanctioning_count==0] <- 0.9
 
 sanctioning_plot <- ggplot(filter(sanctions_c,region!="EU",region!="African Union",region!="UN",region!="League of Arab States"),
@@ -278,12 +559,18 @@ sanctioning_plot <- ggplot(filter(sanctions_c,region!="EU",region!="African Unio
        fill="Sanctions")
 sanctioning_plot + 
   scale_fill_distiller(palette = "Blues",direction=1,breaks=c(0, 1, 2), labels = c(0, 10, 100))
-
 ```
 
-Considering the log scale, this graph demonstrates the extremely high number of sanctions that the United States, as well as its Western counterpart countries and organizations, have placed. Another noteworthy observation is that sub-Saharan Africa hardly places any sanctions, likely attributable to the financial burden that sanctions impose on the sanctioning country itself.
+![](project2_files/figure-gfm/choropleth%20sanctions%20placed-1.png)<!-- -->
 
-```{r choropleth sanctions against}
+Considering the log scale, this graph demonstrates the extremely high
+number of sanctions that the United States, as well as its Western
+counterpart countries and organizations, have placed. Another noteworthy
+observation is that sub-Saharan Africa hardly places any sanctions,
+likely attributable to the financial burden that sanctions impose on the
+sanctioning country itself.
+
+``` r
 sanctioned_plot <- ggplot(filter(sanctions_c,region!="EU",region!="African Union",region!="UN",region!="League of Arab States"),
                            aes(x=long,y=lat,group=group,fill=sanctioned_count))+ 
   geom_polygon(color="black")+
@@ -301,9 +588,12 @@ sanctioned_plot +
   scale_fill_distiller(palette = "YlOrRd",direction=1)
 ```
 
-This graph shows the disproportionate number of sanctions that the Global South and non-Western countries have received.
+![](project2_files/figure-gfm/choropleth%20sanctions%20against-1.png)<!-- -->
 
-```{r choropleth bivariate}
+This graph shows the disproportionate number of sanctions that the
+Global South and non-Western countries have received.
+
+``` r
 bidata <- bi_class(sanctions_c,
                    x = sanctioned_count, y = sanctioning_count, style = "quantile", dim = 3)
 bimap <- ggplot() +
@@ -329,9 +619,16 @@ bifinmap <- ggdraw() +
 bifinmap
 ```
 
-This graph differentiates between countries and organizations that are better classified as “sanction placers” or “sanction receivers.” It is evident that countries and organizations in the Global North—as well as U.S. allies such as Saudi Arabia, Brazil, and Malaysia—are “sanction placers” and countries in the Global South are generally “sanction receivers.”
+![](project2_files/figure-gfm/choropleth%20bivariate-1.png)<!-- -->
 
-```{r alluvial}
+This graph differentiates between countries and organizations that are
+better classified as “sanction placers” or “sanction receivers.” It is
+evident that countries and organizations in the Global North—as well as
+U.S. allies such as Saudi Arabia, Brazil, and Malaysia—are “sanction
+placers” and countries in the Global South are generally “sanction
+receivers.”
+
+``` r
 sanctions_luv <- sanctions
 names(sanctions_luv)[2] = "region"
 names(regions)[2] = "region"
@@ -468,6 +765,12 @@ luv_data2 <- mutate(luv_data2,sanctioning_region=fct_recode(sanctioning_region,
 
 luv_data2 <- summarize(group_by(luv_data2,
                                sanctioned_region,sanctioning_region),freq=n())
+```
+
+    ## `summarise()` has grouped output by 'sanctioned_region'. You can override using
+    ## the `.groups` argument.
+
+``` r
 luv_data2 <- drop_na(luv_data2,sanctioned_region)
 
 ggplot(luv_data2,aes(y=freq,axis1=sanctioning_region,axis2=sanctioned_region))+
@@ -489,11 +792,32 @@ ggplot(luv_data2,aes(y=freq,axis1=sanctioning_region,axis2=sanctioned_region))+
   annotate("text",x=1.5,y=-5.5,label="*US and Canada",size=2.4)
 ```
 
-The alluvial plot first shows which regions place a lot of sanctions compared to which regions receive many sanctions. North America and Europe & Central Asia place the vast majority of sanctions, but Sub-Saharan Africa and East Asia, South Asia, & Pacific receive the most. Moreover, Latin America & the Caribbean, the Middle East & North Africa, and Sub-Saharan Africa place extremely few sanctions while North America receives a minuscule number of sanctions. The graph also shows which regions sanction which other regions. For instance, Sub-Saharan Africa receives most of its sanctions from Europe & Central Asia while Latin America & the Caribbean receive most of their sanctions from North America.
+    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+    ## params$discern): Some strata appear at multiple axes.
+
+    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+    ## params$discern): Some strata appear at multiple axes.
+
+    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
+    ## params$discern): Some strata appear at multiple axes.
+
+![](project2_files/figure-gfm/alluvial-1.png)<!-- -->
+
+The alluvial plot first shows which regions place a lot of sanctions
+compared to which regions receive many sanctions. North America and
+Europe & Central Asia place the vast majority of sanctions, but
+Sub-Saharan Africa and East Asia, South Asia, & Pacific receive the
+most. Moreover, Latin America & the Caribbean, the Middle East & North
+Africa, and Sub-Saharan Africa place extremely few sanctions while North
+America receives a minuscule number of sanctions. The graph also shows
+which regions sanction which other regions. For instance, Sub-Saharan
+Africa receives most of its sanctions from Europe & Central Asia while
+Latin America & the Caribbean receive most of their sanctions from North
+America.
 
 # Section 3: Objectives & Types of Sanctions
 
-```{r stacked bar objectives}
+``` r
 obj <- data.frame(obj_name  = c("democracy", "destab_regime", "end_war", "human_rights", 
                                    "other", "policy_change", "prevent_war", "territorial_conflict", 
                                    "terrorism"))
@@ -555,9 +879,18 @@ ggplot(obj_comb,aes(x=reorder(obj_name,-count), y=count,fill=reorder(region,-cou
   scale_fill_manual(values=c("lightgrey","darkgoldenrod2","coral3","dodgerblue4"))
 ```
 
-This graph shows the objectives of sanctions by a few specific receiving regions. Sub-Saharan Africa receives a disproportionate number of sanctions for ending wars, democracy, and human rights reasons. The Middle East & North Africa receive a large number of sanctions for preventing war and terrorism reasons. Latin America & the Caribbean receive many sanctions for destabilizing regimes, democracy, and human rights reasons. The graph also shows that human rights and democracy are the two most commonly-given reasons for sanctions.
+![](project2_files/figure-gfm/stacked%20bar%20objectives-1.png)<!-- -->
 
-```{r radar types}
+This graph shows the objectives of sanctions by a few specific receiving
+regions. Sub-Saharan Africa receives a disproportionate number of
+sanctions for ending wars, democracy, and human rights reasons. The
+Middle East & North Africa receive a large number of sanctions for
+preventing war and terrorism reasons. Latin America & the Caribbean
+receive many sanctions for destabilizing regimes, democracy, and human
+rights reasons. The graph also shows that human rights and democracy are
+the two most commonly-given reasons for sanctions.
+
+``` r
 num_sanc_type <- data.frame(country=c("US","EU","UN","UK","Japan","Russia","League of Arab States","African Union","Turkey","Albania","Montenegro","Venezuela"),
                             trade=rep(NA, length=12),
                             arms=rep(NA, length=12),
@@ -608,12 +941,47 @@ ggplot(num_sanc_type, aes(x=key, y=values, group=country))+
   theme(strip.text.x=element_text(size=10))
 ```
 
-To utilize our type of sanction dummy variables of Arms, Financial, Military, Trade, Travel, and Other.  Radar plots avoided a central problem with these dummy variables: many sanction observations had multiple ‘1’ values across the six types of sanctions.  It would’ve been deceptive to use these values as normal numbers, as their total represents a number greater than our total amount of observations.  For our radar plots, we first created a data frame via a for loop that counted the number of ‘1’s generated per specified country per type of sanction.  To standardize these numbers, we calculated the means and standard variables of the above numbers for each country to get a nation’s own z-score. Then, we used pivot_longer() to transform our data frame and used geom_line and geom_point, in conjunction with coord_polar, to create our radar charts.  We used the ggradar package for a final attempt at perfection but found the functions and commands of this package to be rather incohesive with other ggplot2 items (for example, we could not get our radar plot to facet).
+![](project2_files/figure-gfm/radar%20types-1.png)<!-- -->
 
-In this graph, one is able see which types of sanctions are most prevalent for each of the 12 present countries/organizations.  Note the high relative frequency of financial (yellow) sanctions for Western nations.
+To utilize our type of sanction dummy variables of Arms, Financial,
+Military, Trade, Travel, and Other. Radar plots avoided a central
+problem with these dummy variables: many sanction observations had
+multiple ‘1’ values across the six types of sanctions. It would’ve been
+deceptive to use these values as normal numbers, as their total
+represents a number greater than our total amount of observations. For
+our radar plots, we first created a data frame via a for loop that
+counted the number of ’1’s generated per specified country per type of
+sanction. To standardize these numbers, we calculated the means and
+standard variables of the above numbers for each country to get a
+nation’s own z-score. Then, we used pivot_longer() to transform our data
+frame and used geom_line and geom_point, in conjunction with
+coord_polar, to create our radar charts. We used the ggradar package for
+a final attempt at perfection but found the functions and commands of
+this package to be rather incohesive with other ggplot2 items (for
+example, we could not get our radar plot to facet).
 
+In this graph, one is able see which types of sanctions are most
+prevalent for each of the 12 present countries/organizations. Note the
+high relative frequency of financial (yellow) sanctions for Western
+nations.
 
-# Final Analysis: 
+# Final Analysis:
 
-From our dataset and subsequent visualizations, we concluded that sanctions are the tool of the privileged, and said tool has been used to transcend traditional, and domestically unpopular, methods of coercion and subjugation by developed economies. Our time series plots show that the use of sanctions increased during the postwar era, during the 1980s, and again in the 21st century, demonstrating the use of sanctions as a direct substitute for unpopular war (such as World War II or the War in Afghanistan) and as an instrument for more interventionist administration (such as the Reagan administration).  Our choropleths visualize the more developed, Western nations and organizations (such as the United States, the European Union, the United Nations, Canada, Norway, etc.) as greater users of sanctions while nations that are often the target of said sanctions (such as Russia, Iran, Libya, Venezuela, etc.) are unable to retaliate, perhaps due to their more limited economies.  We know that sanctions are an economically burdensome policy toll for both countries involved, and a country must be able to internally tolerate the disruption that a lack of trade or finances will cause.
-
+From our dataset and subsequent visualizations, we concluded that
+sanctions are the tool of the privileged, and said tool has been used to
+transcend traditional, and domestically unpopular, methods of coercion
+and subjugation by developed economies. Our time series plots show that
+the use of sanctions increased during the postwar era, during the 1980s,
+and again in the 21st century, demonstrating the use of sanctions as a
+direct substitute for unpopular war (such as World War II or the War in
+Afghanistan) and as an instrument for more interventionist
+administration (such as the Reagan administration). Our choropleths
+visualize the more developed, Western nations and organizations (such as
+the United States, the European Union, the United Nations, Canada,
+Norway, etc.) as greater users of sanctions while nations that are often
+the target of said sanctions (such as Russia, Iran, Libya, Venezuela,
+etc.) are unable to retaliate, perhaps due to their more limited
+economies. We know that sanctions are an economically burdensome policy
+toll for both countries involved, and a country must be able to
+internally tolerate the disruption that a lack of trade or finances will
+cause.
