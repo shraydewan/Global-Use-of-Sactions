@@ -249,7 +249,8 @@ ggplot(num_sanc)+
   geom_line(aes(x=year, y=runumber,color="Russia"),size=1.5)+
   theme_minimal()+
   scale_color_manual(values=c("Total"="#EBEBEB","US"="#307DC3","EU"="#D6D6D6","UN"="#30BBC3","UK"="#7ABFFF","Russia"="#79F1F8"))+
-  labs(title="Number of Active Sanctions Placed by Countries Over Time",color="Regions",x="Year",y="Number of Sanctions") 
+  labs(title="Number of Active Sanctions Placed by Countries Over Time",color="Regions",x="Year",y="Number of Sanctions")+
+  theme(text = element_text(family = "Avenir"))
 ```
 
 ![](Project_files/figure-gfm/time%20series%20sanctions%20placed-1.png)<!-- -->
