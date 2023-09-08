@@ -1,5 +1,5 @@
 # Global Use of Sactions
-### by Shray Dewan and Tristan Serr
+_Authors: Shray Dewan and Tristan Serr_
 
 This research project set out to answer three main questions:
 1. How has the use of sanctions changed over time?
