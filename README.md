@@ -1,7 +1,7 @@
 # Global Use of Sactions
 _Authors: Shray Dewan and Tristan Serr_
 
-This research project set out to answer three main questions:
+This data visualization project in R set out to answer three main questions:
 1. How has the use of sanctions changed over time?
 2. What is the distribution of countries that have sanctioned others and countries that have been sanctioned?
 3. What are the most frequent objectives of sanctions?
