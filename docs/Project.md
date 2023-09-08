@@ -61,132 +61,24 @@ received more sanctions to or from the rest of the world.
 
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-    ## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-    ## ✔ purrr     1.0.2     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
 library(ggplot2)
 library(cowplot)
-```
-
-    ## 
-    ## Attaching package: 'cowplot'
-    ## 
-    ## The following object is masked from 'package:lubridate':
-    ## 
-    ##     stamp
-
-``` r
 library(ggpubr)
-```
-
-    ## 
-    ## Attaching package: 'ggpubr'
-    ## 
-    ## The following object is masked from 'package:cowplot':
-    ## 
-    ##     get_legend
-
-``` r
 library(maps)
-```
-
-    ## 
-    ## Attaching package: 'maps'
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     map
-
-``` r
 library(gapminder)
 library(biscale)
 library(sf)
-```
-
-    ## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
-
-``` r
 library(ggalluvial)
 library(wesanderson)
 library(magrittr)
-```
-
-    ## 
-    ## Attaching package: 'magrittr'
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     set_names
-    ## 
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     extract
-
-``` r
 library(dplyr)
 library("data.table")
-```
-
-    ## 
-    ## Attaching package: 'data.table'
-    ## 
-    ## The following objects are masked from 'package:lubridate':
-    ## 
-    ##     hour, isoweek, mday, minute, month, quarter, second, wday, week,
-    ##     yday, year
-    ## 
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     between, first, last
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     transpose
-
-``` r
 library(vcd)
-```
 
-    ## Loading required package: grid
-
-``` r
 sanctions <- read_csv("sanctions.csv")
-```
-
-    ## Rows: 1101 Columns: 15
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (5): sanctioned_state, sanctioning_state, descr_trade, objective, success
-    ## dbl (10): case_id, begin, end, length, trade, arms, military, financial, tra...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
 world_map <- map_data("world")
 regions <- read_csv("gapMinderGeo.csv")
 ```
-
-    ## Rows: 197 Columns: 12
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (9): geo, name, four_regions, eight_regions, six_regions, members_oecd_g...
-    ## dbl (2): Latitude, Longitude
-    ## lgl (1): World bank, 3 income groups 2017
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
 sanctioning_count <- data.frame(
@@ -356,15 +248,9 @@ ggplot(num_sanc)+
   geom_line(aes(x=year, y=uknumber,color="UK"),size=1.5)+
   geom_line(aes(x=year, y=runumber,color="Russia"),size=1.5)+
   theme_minimal()+
-  scale_color_manual(values=c("Total"="dodgerblue2","US"="firebrick1","EU"="darkorchid","UN"="goldenrod1","UK"="chartreuse3","Russia"="darkorange1"))+
+  scale_color_manual(values=c("Total"="#EBEBEB","US"="#307DC3","EU"="#D6D6D6","UN"="#30BBC3","UK"="#7ABFFF","Russia"="#79F1F8"))+
   labs(title="Number of Active Sanctions Placed by Countries Over Time",color="Regions",x="Year",y="Number of Sanctions") 
 ```
-
-    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `linewidth` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
 
 ![](Project_files/figure-gfm/time%20series%20sanctions%20placed-1.png)<!-- -->
 
@@ -425,7 +311,7 @@ ggplot(num_sanc_placed)+
   geom_line(aes(x=year, y=syrianumber,color="Syria"),size=1.5)+
   geom_line(aes(x=year, y=libyanumber,color="Libya"),size=1.5)+
   theme_minimal()+
-  scale_color_manual(values=c("Iran"="gold4","Russia"="brown1","South Africa"="darkgreen","Afghanistan"="darkolivegreen","China"="darkorange4","Vietnam"="lavenderblush4","Syria"="hotpink3","Libya"="darkslateblue"))+
+  scale_color_manual(values=c("Iran"="#30BBC3","Russia"="#307DC3","South Africa"="#79F1F8","Afghanistan"="#EBEBEB","China"="#7ABFFF","Vietnam"="#D6D6D6","Syria"="darkblue","Libya"="darkslateblue"))+
   labs(title="Number of Active Sanctions Placed Upon Countries Over Time",color="Countries",x="Year",y="Number of Sanctions")
 ```
 
@@ -545,14 +431,15 @@ sanctioning_plot <- ggplot(filter(sanctions_c,region!="EU",region!="African Unio
   geom_polygon(color="black")+
   geom_polygon(data=orgs,color="black")+
   geom_polygon(data=filter(sanctions_c,region=="Lesotho"),color="black")+
-  annotate("text",x=0,y=-55,label="EU",color="white")+
-  annotate("text",x=-20,y=-55,label="African\nUnion",size=3)+
-  annotate("text",x=40,y=-55,label="UN",color="white")+
-  annotate("text",x=20,y=-55,label="League of\nArab States",size=2.4)+
+  annotate("text",x=0,y=-55,label="EU",color="white",family="Avenir")+
+  annotate("text",x=-20,y=-55,label="African\nUnion",size=1.5,family="Avenir")+
+  annotate("text",x=40,y=-55,label="UN",color="white",family="Avenir")+
+  annotate("text",x=20,y=-55,label="League of\nArab States",size=1.5,family="Avenir")+
   coord_map(xlim=c(-180,180),ylim=c(-55,90))+
   theme_void()+
   labs(title="Number of Sanctions Placed by Country",
-       fill="Sanctions")
+       fill="Sanctions")+
+  theme(text = element_text(family = "Avenir"))
 sanctioning_plot + 
   scale_fill_distiller(palette = "Blues",direction=1,breaks=c(0, 1, 2), labels = c(0, 10, 100))
 ```
@@ -572,14 +459,15 @@ sanctioned_plot <- ggplot(filter(sanctions_c,region!="EU",region!="African Union
   geom_polygon(color="black")+
   geom_polygon(data=orgs,color="black")+
   geom_polygon(data=filter(sanctions_c,region=="Lesotho"),color="black")+
-  annotate("text",x=0,y=-55,label="EU")+
-  annotate("text",x=-20,y=-55,label="African\nUnion",size=3)+
-  annotate("text",x=40,y=-55,label="UN")+
-  annotate("text",x=20,y=-55,label="League of\nArab States",size=2.4)+
+  annotate("text",x=0,y=-55,label="EU",family="Avenir")+
+  annotate("text",x=-20,y=-55,label="African\nUnion",size=1.5,family="Avenir")+
+  annotate("text",x=40,y=-55,label="UN",family="Avenir")+
+  annotate("text",x=20,y=-55,label="League of\nArab States",size=1.5,family="Avenir")+
   coord_map(xlim=c(-180,180),ylim=c(-55,90))+
   theme_void()+
   labs(title="Number of Sanctions Placed Against Country",
-       fill="Sanctions")
+       fill="Sanctions")+
+  theme(text = element_text(family = "Avenir"))
 sanctioned_plot +
   scale_fill_distiller(palette = "YlOrRd",direction=1)
 ```
@@ -596,19 +484,19 @@ bimap <- ggplot() +
   geom_polygon(data=filter(bidata,region!="EU",region!="African Union",region!="UN",region!="League of Arab States"), mapping = aes(x=long, y=lat, group=group, fill = bi_class), color = "white", size = 0.1, show.legend = F) +
   geom_polygon(data=filter(bidata,region=="EU"|region=="African Union"|region=="UN"|region=="League of Arab States"),mapping = aes(x=long, y=lat, group=group, fill = bi_class), color = "white", size = 0.1, show.legend = F) +
   geom_polygon(data=filter(bidata,region=="Lesotho"), mapping = aes(x=long, y=lat, group=group, fill = bi_class), color = "white", size = 0.1, show.legend = F) +
-  annotate("text",x=0,y=-55,label="EU",color="white")+
-  annotate("text",x=-20,y=-55,label="African\nUnion",size=3,color="black")+
-  annotate("text",x=40,y=-55,label="UN",color="black")+
-  annotate("text",x=20,y=-55,label="League of\nArab States",size=2.4,color="black")+
+  annotate("text",x=0,y=-55,label="EU",color="white",family="Avenir")+
+  annotate("text",x=-20,y=-55,label="African\nUnion",size=2,color="black",family="Avenir")+
+  annotate("text",x=40,y=-55,label="UN",color="black",family="Avenir")+
+  annotate("text",x=20,y=-55,label="League of\nArab States",size=1.5,color="black",family="Avenir")+
   bi_scale_fill(pal = "DkViolet", dim = 3) +
   coord_map(xlim=c(-180,180),ylim=c(-55,90))+
   labs(title = "Sanctions Placed vs. Against",x="",y="") +
-  bi_theme()
+  bi_theme(base_family="Avenir", base_size=13)
 bilegend <- bi_legend(pal = "DkViolet",
                            dim = 3,
                            xlab = "Sanctions Against",
                            ylab = "Sanctions Placed",
-                           size = 8)
+                           size = 5)
 bifinmap <- ggdraw() +
   draw_plot(bimap, 0, 0, 1, 1)+
   draw_plot(bilegend, 0.1, 0.1, 0.2, 0.2)
@@ -761,41 +649,32 @@ luv_data2 <- mutate(luv_data2,sanctioning_region=fct_recode(sanctioning_region,
 
 luv_data2 <- summarize(group_by(luv_data2,
                                sanctioned_region,sanctioning_region),freq=n())
-```
-
-    ## `summarise()` has grouped output by 'sanctioned_region'. You can override using
-    ## the `.groups` argument.
-
-``` r
 luv_data2 <- drop_na(luv_data2,sanctioned_region)
 
 ggplot(luv_data2,aes(y=freq,axis1=sanctioning_region,axis2=sanctioned_region))+
   geom_alluvium(aes(fill=sanctioning_region),alpha=1)+
   geom_stratum()+
-  geom_text(stat="stratum",aes(label = after_stat(stratum)))+
   geom_bar(aes(x=1,fill=sanctioning_region,y=freq),stat="identity",width=1/3,alpha=.5)+
   geom_bar(aes(x=2,fill=sanctioned_region,y=freq),stat="identity",width=1/3,alpha=.5)+
-  scale_fill_manual(values=c("East Asia, South Asia, & Pacific"="hotpink3",
-                             "Europe & Central Asia" = "chartreuse4",
-                             "Latin America & Caribbean" = "dodgerblue4",
-                             "Middle East & North Africa"="coral3",
-                             "Sub-Saharan Africa" = "darkgoldenrod2",
-                             "North America*"="darkorchid4"))+
-  scale_x_continuous(breaks=c(1,2),labels=c("Sanctioning Region","Sanctioned Region"))+
+  scale_fill_manual(values=c("East Asia, South Asia, & Pacific"="#EBEBEB",
+                             "Europe & Central Asia" = "#307DC3",
+                             "Latin America & Caribbean" = "#D6D6D6",
+                             "Middle East & North Africa"="#30BBC3",
+                             "Sub-Saharan Africa" = "#7ABFFF",
+                             "North America*"="#79F1F8"))+
+  scale_x_continuous(breaks=c(1,2),labels=c("Sanctioning Region","Sanctioned Region"),position = "top")+
   theme_classic()+
-  theme(axis.line = element_blank(),axis.ticks = element_blank(),axis.text.y = element_blank(),axis.title = element_blank())+
-  labs(title="Sanctions from Region to Region",fill="Region")+
-  annotate("text",x=1.5,y=-5.5,label="*US and Canada",size=2.4)
+  theme(axis.line = element_blank(),axis.ticks = element_blank(),axis.text.y = element_blank(),axis.title = element_blank(),legend.position = "none",text = element_text(family = "Avenir"),axis.text = element_text(face="bold",color="black"))+
+  labs(title=" The Cross-Regional Flow of Sanctions",
+       subtitle="   Which regions place sanctions on which other regions?",
+       fill="Region")+
+  theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 10)
+        )+
+  annotate("text",x=1,y=-30,label="*US and Canada",size=2.4, family="Avenir", fontface = 'italic')+
+  annotate("text",x=2,y=-30,label="*US and Canada",size=2.4, family="Avenir",fontface = 'italic')+
+  geom_text(stat="stratum",aes(label = after_stat(stratum)), size=2.5, family="Avenir", color="black")
 ```
-
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
 
 ![](Project_files/figure-gfm/alluvial-1.png)<!-- -->
 
@@ -872,7 +751,8 @@ ggplot(obj_comb,aes(x=reorder(obj_name,-count), y=count,fill=reorder(region,-cou
   coord_flip()+
   labs(y="Frequency",x="Objectives",title = "Objectives of Sanctions by Selected Sanctioned Region",fill="Sanctioned Region")+
   theme_minimal()+
-  scale_fill_manual(values=c("lightgrey","darkgoldenrod2","coral3","dodgerblue4"))
+  scale_fill_manual(values=c("#EBEBEB","#307DC3","#7ABFFF","#79F1F8"))+
+  theme(text = element_text(family = "Avenir"))
 ```
 
 ![](Project_files/figure-gfm/stacked%20bar%20objectives-1.png)<!-- -->
@@ -927,14 +807,14 @@ num_sanc_type <- pivot_longer(num_sanc_type, names_to="key", values_to="values",
 ggplot(num_sanc_type, aes(x=key, y=values, group=country))+
   geom_line()+
   geom_point(aes(color=key), size=2)+
-  scale_color_manual(values=c("coral1","khaki","cornflowerblue","aquamarine","lightpink","lightgreen", "coral1"), name="Sanction Type")+  
+  scale_color_manual(values=c("#EBEBEB","#307DC3","#D6D6D6","#30BBC3","#7ABFFF","#79F1F8","darkblue"), name="Sanction Type")+  
   scale_x_discrete(name="", breaks=1:6, labels=c("arms","financial","military","other","trade","travel"))+
   labs(title="Distribution of Type of Sanction Across Selected Countries", y="Z-Score Value")+
   coord_polar()+
   theme_minimal()+
   facet_wrap(~country, strip.position="bottom")+
   theme(axis.text.y=element_text(size=10))+
-  theme(strip.text.x=element_text(size=10))
+  theme(strip.text.x=element_text(size=10),)
 ```
 
 ![](Project_files/figure-gfm/radar%20types-1.png)<!-- -->
